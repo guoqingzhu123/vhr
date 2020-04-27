@@ -2,6 +2,8 @@ package com.example.vhr.mapper;
 
 import com.example.vhr.model.Role;
 
+import java.util.List;
+
 /**
  * @author Lenovo
  */
@@ -17,5 +19,7 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> getAllRoles();
 
 }

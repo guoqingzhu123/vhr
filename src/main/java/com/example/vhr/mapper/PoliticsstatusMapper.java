@@ -14,4 +14,5 @@ public interface PoliticsstatusMapper {
     int updateByPrimaryKeySelective(Politicsstatus record);
 
     int updateByPrimaryKey(Politicsstatus record);
+
 }

@@ -1,10 +1,8 @@
 package com.example.vhr.mapper;
 
 import com.example.vhr.model.MenuRole;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * @author Lenovo
- */
 public interface MenuRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -17,5 +15,9 @@ public interface MenuRoleMapper {
     int updateByPrimaryKeySelective(MenuRole record);
 
     int updateByPrimaryKey(MenuRole record);
+
+    void deleteByRid(Integer rid);
+
+    Integer insertRecord(@Param("rid") Integer rid, @Param("mids") Integer[] mids);
 
 }
