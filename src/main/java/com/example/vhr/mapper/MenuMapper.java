@@ -1,6 +1,7 @@
 package com.example.vhr.mapper;
 
 import com.example.vhr.model.Menu;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -26,6 +27,10 @@ public interface MenuMapper {
 
     List<Menu> getAllMenus();
 
+    @Select("select mid from menu_role where rid=#{id}")
     List<Integer> getMidsByRid(Integer rid);
+
+
+
 
 }

@@ -4,9 +4,6 @@ import com.example.vhr.model.Role;
 
 import java.util.List;
 
-/**
- * @author Lenovo
- */
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -20,6 +17,8 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
 
+//    @Select("select * from role")
     List<Role> getAllRoles();
+
 
 }
