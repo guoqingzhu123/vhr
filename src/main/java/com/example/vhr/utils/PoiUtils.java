@@ -25,18 +25,13 @@ import java.util.List;
  */
 public class PoiUtils {
     public static ResponseEntity<byte[]> exportData(List<Position> positions) {
-        // 1. 创建 excel文件
         XSSFWorkbook workbook = new XSSFWorkbook();
-        // 2. 创建样式
-        // 标题行样式
         XSSFCellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.YELLOW.index);
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        // 日期样式
         XSSFCellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
 
-        // 3. 写入标题栏数据
         XSSFSheet sheet = workbook.createSheet("职位信息表");
         sheet.setColumnWidth(0, 5 * 256);
         sheet.setColumnWidth(1, 15 * 256);
@@ -59,7 +54,6 @@ public class PoiUtils {
         c2.setCellValue("创建时间");
         c3.setCellValue("是否启用");
 
-        // 4. 写入 postions数据
         for (int i = 0; i < positions.size(); i++) {
             Position position = positions.get(i);
             Row row = sheet.createRow(i + 1);
@@ -72,7 +66,6 @@ public class PoiUtils {
 
             row.createCell(3).setCellValue(position.getEnabled());
         }
-        // 5. 保存文件
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HttpHeaders headers = new HttpHeaders();
         try {
@@ -91,10 +84,8 @@ public class PoiUtils {
         Position position = null;
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
-            // 2. 获取 workbook的 sheet数量
             int numberOfSheets = workbook.getNumberOfSheets();
             for (int i = 0; i < numberOfSheets; i++) {
-                // 3. 获取 sheet
                 XSSFSheet sheet = workbook.getSheetAt(i);
                 int rows = sheet.getPhysicalNumberOfRows();
                 for (int j = 1; j < rows; j++) {

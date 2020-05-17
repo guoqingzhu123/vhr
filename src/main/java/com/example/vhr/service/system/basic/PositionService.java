@@ -43,7 +43,7 @@ public class PositionService {
     public PageInfo<Position> getPositionByPage(Integer page, Integer size) {
         PageHelper.startPage(page, size);
         List<Position> positions = positionMapper.selectAllPosition();
-        return new PageInfo<>(positions,size);
+        return new PageInfo<>(positions, size);
     }
 
     public int addPositions(List<Position> positions) {

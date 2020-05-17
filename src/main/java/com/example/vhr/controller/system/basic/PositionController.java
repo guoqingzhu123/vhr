@@ -24,14 +24,7 @@ import java.util.List;
 public class PositionController {
     @Autowired
     PositionService positionService;
-
-//    @GetMapping("/")
-//    @ApiOperation(value = "获取所有职位", notes = "所有职位信息列表", produces = "application/json")
-//    public RespBean getAllPosition() {
-//        List<Position> positions = positionService.getAllPosition();
-//        return RespBean.ok("", positions);
-//    }
-
+    
     @GetMapping("/")
     @ApiOperation(value = "分页获取职位", notes = "职位信息列表", produces = "application/json")
     public RespBean getPositionByPage(@RequestParam(defaultValue = "1") Integer page,
@@ -84,7 +77,6 @@ public class PositionController {
     @GetMapping("/export")
     @ApiOperation(value = "导出数据", notes = "将所有职位导出到excel")
     public ResponseEntity<byte[]> exportData() {
-//        List<Position> positions = positionService.getPositionByPage(null, null).getList();
         List<Position> positions = positionService.getAllPosition();
         return PoiUtils.exportData(positions);
     }
@@ -92,7 +84,6 @@ public class PositionController {
     @PostMapping("/import")
     @ApiOperation(value = "导入数据", notes = "导入excel数据")
     public RespBean importData(MultipartFile file) throws IOException {
-//        file.transferTo(new File("e:\\position.xlsx"));
         List<Position> positions = PoiUtils.importData(file);
         if(positionService.addPositions(positions) == positions.size()) {
             return RespBean.ok("导入成功");

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.vhr.mapper.TrainMapper">
+  <resultMap id="BaseResultMap" type="com.example.vhr.model.Train">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="workId" jdbcType="INTEGER" property="workId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sectorId" jdbcType="INTEGER" property="sectorId" />
+    <result column="sectorName" jdbcType="VARCHAR" property="sectorName" />
+    <result column="trainName" jdbcType="VARCHAR" property="trainName" />
+    <result column="trainTime" jdbcType="INTEGER" property="trainTime" />
+    <result column="trainResult" jdbcType="OTHER" property="trainResult" />
+    <result column="trainPrize" jdbcType="INTEGER" property="trainPrize" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap id="AllTrainInfo" type="com.example.vhr.model.Train" extends="BaseResultMap">
+  <association property="sector" javaType="com.example.vhr.model.Sector">
+    <id column="sid" property="id"/>
+    <result column="sname" property="name"/>
+  </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, workId, `name`, sectorId, sectorName, trainName, trainTime, trainResult, trainPrize, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from train
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+<!--    delete from train-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </delete>-->
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.vhr.model.Train" useGeneratedKeys="true">
+    insert into train (workId, `name`, sectorId, 
+      sectorName, trainName, trainTime, 
+      trainResult, trainPrize, remark
+      )
+    values (#{workId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sectorId,jdbcType=INTEGER}, 
+      #{sectorName,jdbcType=VARCHAR}, #{trainName,jdbcType=VARCHAR}, #{trainTime,jdbcType=INTEGER}, 
+      #{trainResult,jdbcType=OTHER}, #{trainPrize,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.vhr.model.Train" useGeneratedKeys="true">
+    insert into train
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workId != null">
+        workId,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="sectorId != null">
+        sectorId,
+      </if>
+      <if test="sectorName != null">
+        sectorName,
+      </if>
+      <if test="trainName != null">
+        trainName,
+      </if>
+      <if test="trainTime != null">
+        trainTime,
+      </if>
+      <if test="trainResult != null">
+        trainResult,
+      </if>
+      <if test="trainPrize != null">
+        trainPrize,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workId != null">
+        #{workId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorId != null">
+        #{sectorId,jdbcType=INTEGER},
+      </if>
+      <if test="sectorName != null">
+        #{sectorName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainName != null">
+        #{trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainTime != null">
+        #{trainTime,jdbcType=INTEGER},
+      </if>
+      <if test="trainResult != null">
+        #{trainResult,jdbcType=OTHER},
+      </if>
+      <if test="trainPrize != null">
+        #{trainPrize,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.vhr.model.Train">
+    update train
+    <set>
+      <if test="workId != null">
+        workId = #{workId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sectorId != null">
+        sectorId = #{sectorId,jdbcType=INTEGER},
+      </if>
+      <if test="sectorName != null">
+        sectorName = #{sectorName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainName != null">
+        trainName = #{trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="trainTime != null">
+        trainTime = #{trainTime,jdbcType=INTEGER},
+      </if>
+      <if test="trainResult != null">
+        trainResult = #{trainResult,jdbcType=OTHER},
+      </if>
+      <if test="trainPrize != null">
+        trainPrize = #{trainPrize,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="addTrain">
+    insert into train (workId, name, sectorId,
+    sectorName, trainName, trainPrize, trainResult,
+    trainTime, remark)
+    values
+    <foreach collection="list" separator="," item="train">
+      (#{train.workId,jdbcType=INTEGER}, #{train.name,jdbcType=CHAR},
+      #{train.sectorId,jdbcType=INTEGER}, #{train.sectorName,jdbcType=INTEGER}, #{train.trainName,jdbcType=VARCHAR},
+      #{train.trainPrize,jdbcType=INTEGER},
+      #{train.trainTime,jdbcType=INTEGER}, #{train.trainResult,jdbcType=VARCHAR},#{train.remark,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <delete id="deleteTrainById" parameterType="java.lang.Integer">
+    delete from train
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="getAllTrain" resultMap="BaseResultMap">
+    select * from train;
+  </select>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*) from train t
+    <where>
+      <if test="tr!=null">
+        <if test="tr.name !=null and tr.name!=''">
+          and t.name like concat('%',#{tr.name},'%')
+        </if>
+        <if test="tr.workId !=null">
+          and t.workId =#{tr.workId}
+        </if>
+        <if test="tr.sectorId !=null">
+          and t.sectorId =#{tr.sectorId}
+        </if>
+        <if test="tr.sectorName !=null">
+          and t.sectorName =#{tr.sectorName}
+        </if>
+        <if test="tr.trainName !=null">
+          and t.trainName =#{tr.trainName}
+        </if>
+        <if test="tr.trainTime !=null ">
+          and t.trainTime =#{tr.trainTime}
+        </if>
+        <if test="tr.trainResult !=null">
+          and t.trainResult =#{tr.trainResult}
+        </if>
+        <if test="tr.trainPrize !=null">
+          and t.trainPrize  #{tr.trainPrize}
+        </if>
+        <if test="tr.remark !=null">
+          and t.remark  #{tr.remark}
+        </if>
+      </if>
+    </where>
+  </select>
+  <select id="getTrainByPage" resultMap="AllTrainInfo">
+    select t.*,s.`name` as sname from train t,sector s
+     where t.`sectorName`=s.`id`
+    <if test="tr.name !=null and tr.name!=''">
+      and t.name like concat('%',#{tr.name},'%')
+    </if>
+    <if test="tr.workId !=null">
+      and t.workId =#{tr.workId}
+    </if>
+    <if test="tr.sectorId !=null">
+      and t.sectorId =#{tr.sectorId}
+    </if>
+    <if test="tr.sectorName !=null">
+      and t.sectorName =#{tr.sectorName}
+    </if>
+    <if test="tr.trainName !=null">
+      and t.trainName =#{tr.trainName}
+    </if>
+    <if test="tr.trainTime !=null ">
+      and t.trainTime =#{tr.trainTime}
+    </if>
+    <if test="tr.trainResult !=null">
+      and t.trainResult =#{tr.trainResult}
+    </if>
+    <if test="tr.trainPrize !=null">
+      and t.trainPrize  #{tr.trainPrize}
+    </if>
+     <if test="tr.remark !=null">
+      and t.remark  #{tr.remark}
+    </if>
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <update id="updateByPrimaryKey" parameterType="com.example.vhr.model.Train">
+    update train
+    set workId = #{workId,jdbcType=INTEGER},
+      `name` = #{name,jdbcType=VARCHAR},
+      sectorId = #{sectorId,jdbcType=INTEGER},
+      sectorName = #{sectorName,jdbcType=VARCHAR},
+      trainName = #{trainName,jdbcType=VARCHAR},
+      trainTime = #{trainTime,jdbcType=INTEGER},
+      trainResult = #{trainResult,jdbcType=OTHER},
+      trainPrize = #{trainPrize,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
